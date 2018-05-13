@@ -29,40 +29,36 @@ class GameState
     end.compact.first
   end
 
+  def next_player
+    "R"
+  end
+
   private
 
     def winning_positions
       [
-        # Horizontal wins
-        (0..3).to_a,
-        (1..4).to_a,
-        (5..8).to_a,
-        (6..9).to_a,
-        (10..13).to_a,
-        (11..14).to_a,
-        (15..18).to_a,
-        (16..19).to_a,
-        (20..23).to_a,
-        (21..24).to_a,
+        horizontal_wins,
+        vertical_wins,
+        diagonal_wins
+      ].flatten(1)
+    end
 
-        # Vertical wins
-        (0..15).step(5).to_a,
-        (1..16).step(5).to_a,
-        (2..17).step(5).to_a,
-        (3..18).step(5).to_a,
-        (4..19).step(5).to_a,
-        (5..20).step(5).to_a,
-        (6..21).step(5).to_a,
-        (7..22).step(5).to_a,
-        (8..23).step(5).to_a,
-        (9..24).step(5).to_a,
+    def horizontal_wins
+      0.step(35, 7).map do |row_start|
+        row_start.upto(row_start + 3).map do |n|
+          (n..n + 3).to_a
+        end
+      end.flatten(1)
+    end
 
-        # Diagonal wins
-        (3..15).step(4).to_a,
-        (4..16).step(4).to_a,
-        (8..20).step(4).to_a,
-        (9..21).step(4).to_a,
-      ]
+    def vertical_wins
+      0.upto(20).map { |n| (n..n + 21).step(7).to_a }
+    end
+
+    def diagonal_wins
+      3.upto(20).map { |n| (n..n + 19).step(6).to_a }
+      3.upto(17).map { |n| (n..n + 25).step(8).to_a }
+      []
     end
 
     def winning_row?(positions)

@@ -1,3 +1,6 @@
+require "pry"
+require_relative "./game_state"
+
 class GameTree
   def generate
     initial_game_state = GameState.new("B", Array.new(25))
@@ -7,14 +10,21 @@ class GameTree
   end
 
   def generate_moves(game_state)
-    next_player = game_state.next_player
+    [21, 22, 23, 24].each do |position|
+      player_at_position = game_state.board[position]
 
-    game_state.board.each_with_index do |player_at_position, position|
+      until player_at_position.nil? || position < 5
+        position -= 5
+        player_at_position = game_state.board[position]
+      end
+
       unless player_at_position
         next_board = game_state.board.dup
         next_board[position] = game_state.current_player
 
-        next_game_state = GameState.new(next_player, next_board)
+        p next_board
+
+        next_game_state = GameState.new(game_state.next_player, next_board)
 
         game_state.moves << next_game_state
         generate_moves(next_game_state)
@@ -22,3 +32,7 @@ class GameTree
     end
   end
 end
+
+a = GameTree.new
+a.generate
+binding.pry

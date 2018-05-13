@@ -1,15 +1,15 @@
 class Game
   def render_board
-    output = "#{"-" * 23}\n"
-    0.upto(24) do |position|
-      if position <= 4
+    output = "#{"-" * 33}\n"
+    0.upto(41) do |position|
+      if position <= 9
         output << " #{position}  "
       else
-        output << "    "
+        output << " #{position} "
       end
 
-      if position % 5 == 4
-        output << "\n#{"-" * 23}\n"
+      if (position + 1) % 7 == 0
+        output << "\n#{"-" * 33}\n"
       else
         output << "|"
       end
@@ -20,4 +20,5 @@ class Game
   private
 end
 
-Game.new.render_board
+a = Game.new
+a.render_board
