@@ -56,7 +56,23 @@ class Game
     end
 
     def diagonal_wins
-      # TODO: 
+      w = []
+
+      0.upto(last_index_for_vertical_win).each do |position|
+        right_diag = position.step(columns * 4 + position, 8).to_a
+
+        if row_of(right_diag[-1]) - row_of(position) == 3
+          w << right_diag
+        end
+
+        # TODO: Left diag
+      end
+
+      w
+    end
+
+    def row_of(position)
+      position / 7
     end
 
     def row_starts
